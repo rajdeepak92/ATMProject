@@ -1,0 +1,33 @@
+name: GitHub Actions ATM
+on: [push, pull_request]
+jobs: 
+    ATM-Action-Job:
+      name: Exploring ATM
+      runs-on: ubuntu-latest
+      steps:
+        # Display the event that triggered the workflow
+        - run: echo "The job was triggered by a ${{github.event_name}} event."
+
+        # Runner Information
+        - run: echo "This job is now running on a ${{runner.os}} server hosted by GitHub."
+
+        # Information about the repo & branch
+        - run: echo "The name of the branch is ${{github.ref}} & repo is ${{ github.repositoty}}."
+
+        # Use action located in https://github.com/actions
+        - name: Check out repository code
+          uses: actions/checkout@v2
+        - run: echo "The ${{ github.repository }} repo has been cloned to the runner."
+        - run: echo "Your repository has been copied to the path ${{ github.workspace}} on the runner."
+        - run: echo "The workflow is now ready to test code on the runner."
+
+        - name: conditional step when event name is pull_request
+          if: ${{ github.event_name == 'pull_request' }}
+          run: echo "This event is a pull request."
+        
+        - name: List files in the repository
+          run: |
+           ls ${{ github.workspace }}
+        # - name: Setup python on runner
+        #   uses
+        - run: echo "This job's status is ${{ job.status }}."
